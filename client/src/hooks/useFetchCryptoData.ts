@@ -10,7 +10,7 @@ export const useFetchCryptoData = () => {
   const fetchCryptoData = async () => {
     try {
       setLoading(true);
-      const result = await axios.get('/data');
+      const result = await axios.get('/data/get');
       const cryptoData: CryptoApi[] = result.data.data;
 
       setCryptoData(cryptoData);

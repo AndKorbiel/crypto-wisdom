@@ -1,10 +1,9 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const port = 5000;
 require('dotenv').config();
 
-app.use('/data/', async (req, res) => {
+app.get('/get', async (req, res) => {
   try {
     const response = await axios.get(
       'https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
@@ -17,13 +16,11 @@ app.use('/data/', async (req, res) => {
 
     if (response) {
       const data = response.data;
-      res.send(data);
+      res.status(200).send(data);
     }
-  } catch (ex) {
-    res.send(ex);
+  } catch (err) {
+    res.send(err);
   }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+module.exports = app;
