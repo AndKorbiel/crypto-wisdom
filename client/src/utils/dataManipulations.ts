@@ -1,5 +1,5 @@
 export function formatNumber(number: number) {
-  return number.toFixed(2);
+  return Math.round(number * 100) / 100;
 }
 
 export function formatPriceToCurrency(price: number) {

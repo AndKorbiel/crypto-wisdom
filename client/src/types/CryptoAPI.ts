@@ -1,14 +1,14 @@
-export type CryptoApi = {
+export type CryptoData = {
   id: string;
   name: string;
   max_suply: number;
   quote: {
-    USD: CryptoQuoteAPI;
+    USD: CryptoQuote;
   };
   slug: string;
 };
 
-export type CryptoQuoteAPI = {
+export type CryptoQuote = {
   market_cap: number;
   price: number;
   percent_change_1h: number;

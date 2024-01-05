@@ -1,10 +1,13 @@
+import { Container } from '@mui/material';
 import './App.css';
-import { Chart } from './components';
+import { CryptoData } from './components';
 
 function App() {
   return (
     <div className="App">
-      <Chart />
+      <Container maxWidth="xl">
+        <CryptoData />
+      </Container>
     </div>
   );
 }

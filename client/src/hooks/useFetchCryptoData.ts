@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { CryptoApi } from '../types';
+import { CryptoData } from '../types';
 import { useEffect, useState } from 'react';
 
 export const useFetchCryptoData = () => {
-  const [cryptoData, setCryptoData] = useState<CryptoApi[]>([]);
+  const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
 
@@ -11,7 +11,7 @@ export const useFetchCryptoData = () => {
     try {
       setLoading(true);
       const result = await axios.get('/data/get');
-      const cryptoData: CryptoApi[] = result.data.data;
+      const cryptoData: CryptoData[] = result.data.data;
 
       setCryptoData(cryptoData);
     } catch (ex) {
