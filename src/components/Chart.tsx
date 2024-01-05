@@ -5,7 +5,7 @@ export const Chart = () => {
   const { cryptoData, error, isLoading } = useFetchCryptoData();
 
   if (isLoading) return <>Loading...</>;
-  if (error) return <>No data</>;
+  if (error || !cryptoData) return <>No data ;(</>;
 
   return (
     <>

@@ -13,9 +13,6 @@ export const useFetchCryptoData = () => {
       const result = await axios.get('/data');
       const cryptoData: CryptoApi[] = result.data.data;
 
-      console.log('cryptoData');
-      console.log(cryptoData);
-
       setCryptoData(cryptoData);
     } catch (ex) {
       console.log(ex);
