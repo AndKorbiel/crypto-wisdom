@@ -7,3 +7,9 @@ export function formatPriceToCurrency(price: number) {
 
   return `$ ${fixedPrice}`;
 }
+
+export function formatDate(date?: string) {
+  if (!date) return 'N/A';
+
+  return date.replace(/[T|^Z]/g, ' ').substring(0, date.length - 5);
+}

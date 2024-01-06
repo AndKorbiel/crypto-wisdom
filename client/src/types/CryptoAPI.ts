@@ -1,5 +1,6 @@
 export type CryptoData = {
   id: string;
+  last_updated: string;
   name: string;
   max_suply: number;
   quote: {

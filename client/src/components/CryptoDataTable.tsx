@@ -6,70 +6,75 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  styled,
 } from '@mui/material';
-import { formatPriceToCurrency } from '../utils';
+import { formatDate, formatPriceToCurrency } from '../utils';
 import { PercentageValue } from './PercentageValue';
 import { CryptoData } from '../types';
-
-const StyledTableRow = styled(TableRow)`
-  th {
-    font-weight: bold;
-  }
-`;
+import { StyledTableCell, StyledTableRow } from './CryptoDataTable.styled';
+import { useMemo } from 'react';
 
 type CryptoDataTableProps = {
+  activeFilter: string;
   cryptoData: CryptoData[];
 };
 
-export const CryptoDataTable = ({ cryptoData }: CryptoDataTableProps) => {
-  return (
-    <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead sx={{ background: '#f5f5f5' }}>
-            <StyledTableRow>
-              <TableCell>#</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">1h %</TableCell>
-              <TableCell align="right">24h %</TableCell>
-              <TableCell align="right">7d %</TableCell>
-              <TableCell align="right">Market Cap</TableCell>
-              <TableCell align="right">Volume (24h)</TableCell>
-            </StyledTableRow>
-          </TableHead>
+export const CryptoDataTable = ({
+  activeFilter,
+  cryptoData,
+}: CryptoDataTableProps) => {
+  const filteredData = useMemo(() => {
+    return activeFilter !== ''
+      ? [...cryptoData].filter((data) => data.id === activeFilter)
+      : cryptoData;
+  }, [activeFilter, cryptoData]);
 
-          <TableBody>
-            {cryptoData.map(({ name, slug, quote }, index) => (
-              <TableRow key={name}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>
-                  {name} ({slug})
-                </TableCell>
-                <TableCell align="right">
-                  {formatPriceToCurrency(quote.USD.price)}
-                </TableCell>
-                <TableCell align="right">
-                  <PercentageValue value={quote.USD.percent_change_1h} />
-                </TableCell>
-                <TableCell align="right">
-                  <PercentageValue value={quote.USD.percent_change_24h} />
-                </TableCell>
-                <TableCell align="right">
-                  <PercentageValue value={quote.USD.percent_change_7d} />
-                </TableCell>
-                <TableCell align="right">
-                  {formatPriceToCurrency(quote.USD.market_cap)}
-                </TableCell>
-                <TableCell align="right">
-                  {formatPriceToCurrency(quote.USD.volume_24h)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }}>
+        <TableHead sx={{ background: '#f5f5f5' }}>
+          <StyledTableRow>
+            <TableCell>#</TableCell>
+            <TableCell>Name</TableCell>
+            <StyledTableCell>Price</StyledTableCell>
+            <StyledTableCell>1h %</StyledTableCell>
+            <StyledTableCell>24h %</StyledTableCell>
+            <StyledTableCell>7d %</StyledTableCell>
+            <StyledTableCell>Market Cap</StyledTableCell>
+            <StyledTableCell>Volume (24h)</StyledTableCell>
+            <StyledTableCell>Last Update</StyledTableCell>
+          </StyledTableRow>
+        </TableHead>
+
+        <TableBody>
+          {filteredData.map(({ name, slug, quote, last_updated }, index) => (
+            <TableRow key={name}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>
+                <b>{name}</b> ({slug})
+              </TableCell>
+              <StyledTableCell>
+                <b>{formatPriceToCurrency(quote.USD.price)}</b>
+              </StyledTableCell>
+              <StyledTableCell>
+                <PercentageValue value={quote.USD.percent_change_1h} />
+              </StyledTableCell>
+              <StyledTableCell>
+                <PercentageValue value={quote.USD.percent_change_24h} />
+              </StyledTableCell>
+              <StyledTableCell>
+                <PercentageValue value={quote.USD.percent_change_7d} />
+              </StyledTableCell>
+              <StyledTableCell>
+                {formatPriceToCurrency(quote.USD.market_cap)}
+              </StyledTableCell>
+              <StyledTableCell>
+                {formatPriceToCurrency(quote.USD.volume_24h)}
+              </StyledTableCell>
+              <StyledTableCell>{formatDate(last_updated)}</StyledTableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
