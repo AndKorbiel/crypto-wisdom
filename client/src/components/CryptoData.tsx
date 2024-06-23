@@ -1,19 +1,23 @@
 import { Typography } from '@mui/material';
-import { useFetchCryptoData } from '../hooks';
+import { useFetchCryptoData, useWebSocketConnection } from '../hooks';
 import { CryptoDataTable } from './CryptoDataTable';
 import { Filters } from './Filters';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const CryptoData = () => {
   const { cryptoData, error, isLoading } = useFetchCryptoData();
   const [activeFilter, setActiveFilter] = useState<string>('');
 
+  const { call } = useWebSocketConnection();
+
+  useEffect(() => {
+    call();
+  }, [call]);
+
   if (isLoading) return <Typography variant="h3">Loading...</Typography>;
 
   if (error || !cryptoData)
     return <Typography variant="h3">No data ;(</Typography>;
-
-  console.log(activeFilter);
 
   return (
     <>
